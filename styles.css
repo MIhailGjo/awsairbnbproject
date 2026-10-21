@@ -206,8 +206,14 @@ body {
 .auth .auth-msg { margin: 12px 0 0; font-size: 14px; color: #c13515; }
 .auth .auth-msg:empty { display: none; }
 
-/* Read-only email in the profile */
-.field input[readonly] { background: #f7f7f7; color: #717171; }
+/* User details in the profile card (label on the left, value on the right) */
+.details {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 16px;
+  margin-bottom: 24px;
+  font-size: 15px;
+}
 
-/* "Saved" / error text next to the profile Save button */
-.profile-msg { margin-left: 12px; font-size: 14px; color: #717171; }
+.details dt { font-weight: 600; }
+.details dd { color: #444; overflow-wrap: anywhere; }

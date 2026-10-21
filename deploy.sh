@@ -13,5 +13,4 @@ aws s3 sync . "s3://$BUCKET" \
   --include "index.html" \
   --include "styles.css" \
   --include "searchbar.js" \
-  --include "account.js" \
-  --include "auth.js"
+  --include "account.js"

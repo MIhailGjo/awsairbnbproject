@@ -8,10 +8,8 @@
   <link rel="stylesheet" href="styles.css">
   <!-- Search bar logic; "defer" runs it after the page has loaded -->
   <script src="searchbar.js" defer></script>
-  <!-- Profile card logic -->
+  <!-- Log in / create account / profile card logic -->
   <script src="account.js" defer></script>
-  <!-- Sign up / log in (Amazon Cognito) -->
-  <script src="auth.js" defer></script>
 </head>
 <body>
 
@@ -27,91 +25,65 @@
   <!-- Search results get filled in here by searchbar.js -->
   <div id="results"></div>
 
-  <!-- Sign up / log in card, made to work by auth.js -->
-  <section class="auth">
-    <!-- Shown when logged out: tabs to switch between log in and create account -->
-    <div id="authForms">
-      <div class="tabs">
-        <button type="button" class="tab active" data-tab="login">Log in</button>
-        <button type="button" class="tab" data-tab="signup">Create account</button>
+  <!-- Log in / create account card (shown when logged out), made to work by account.js -->
+  <section class="auth" id="authCard">
+    <div class="tabs">
+      <button type="button" class="tab active" data-tab="login">Log in</button>
+      <button type="button" class="tab" data-tab="signup">Create account</button>
+    </div>
+
+    <!-- Log in: just the email -->
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="email" autocomplete="email" required>
       </div>
+      <button type="submit" class="save">Log in</button>
+    </form>
 
-      <!-- Log in: just the email -->
-      <form id="loginForm">
-        <div class="field">
-          <label for="loginEmail">Email</label>
-          <input id="loginEmail" type="email" autocomplete="email" required>
-        </div>
-        <button type="submit" class="save">Log in</button>
-      </form>
+    <!-- Create account: same fields as the users table -->
+    <form id="signupForm" hidden>
+      <div class="field">
+        <label for="signupName">Full name</label>
+        <input id="signupName" type="text" placeholder="Jane Doe" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="signupEmail">Email</label>
+        <input id="signupEmail" type="email" placeholder="jane@example.com" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="signupCity">Home city</label>
+        <input id="signupCity" type="text" placeholder="City, State">
+      </div>
+      <button type="submit" class="save">Create account</button>
+    </form>
 
-      <!-- Create account: the original profile fields -->
-      <form id="signupForm" hidden>
-        <div class="field">
-          <label for="signupName">Full name</label>
-          <input id="signupName" type="text" placeholder="Jane Doe" autocomplete="name" required>
-        </div>
-        <div class="field">
-          <label for="signupEmail">Email</label>
-          <input id="signupEmail" type="email" placeholder="jane@example.com" autocomplete="email" required>
-        </div>
-        <div class="field">
-          <label for="signupLocation">Location</label>
-          <input id="signupLocation" type="text" placeholder="City, Country">
-        </div>
-        <div class="field">
-          <label for="signupBio">About</label>
-          <textarea id="signupBio" rows="3" placeholder="Tell hosts a bit about yourself"></textarea>
-        </div>
-        <button type="submit" class="save">Create account</button>
-      </form>
-    </div>
-
-    <!-- Shown when logged in -->
-    <div id="loggedIn" hidden>
-      <p>Logged in as <strong id="userEmail"></strong></p>
-      <button type="button" id="logoutBtn" class="save">Log out</button>
-    </div>
-
-    <!-- Errors and status messages -->
+    <!-- Errors like "No account with that email" -->
     <p id="authMsg" class="auth-msg"></p>
   </section>
 
-  <!-- Profile card, made to work by account.js (only shown when logged in) -->
-  <section class="profile" hidden>
+  <!-- Profile card (shown when logged in), filled in by account.js from the database -->
+  <section class="profile" id="profileCard" hidden>
     <h2>Profile</h2>
 
     <!-- Avatar circle, name and member date -->
     <div class="profile-header">
-      <div class="avatar">M</div>
+      <div class="avatar" id="profileAvatar"></div>
       <div>
-        <div class="name">Your Name</div>
-        <div class="meta"></div>
+        <div class="name" id="profileName"></div>
+        <div class="meta" id="profileSince"></div>
       </div>
     </div>
 
-    <!-- Profile form; account.js saves it to the database when Save is clicked -->
-    <form>
-      <div class="field">
-        <label for="name">Full name</label>
-        <input id="name" type="text" placeholder="Jane Doe" required>
-      </div>
-      <div class="field">
-        <!-- email is the account's login, so it can't be changed here -->
-        <label for="email">Email</label>
-        <input id="email" type="email" readonly>
-      </div>
-      <div class="field">
-        <label for="location">Location</label>
-        <input id="location" type="text" placeholder="City, Country">
-      </div>
-      <div class="field">
-        <label for="bio">About</label>
-        <textarea id="bio" rows="3" placeholder="Tell hosts a bit about yourself"></textarea>
-      </div>
-      <button type="submit" class="save">Save</button>
-      <span id="profileMsg" class="profile-msg"></span>
-    </form>
+    <!-- The user's details -->
+    <dl class="details">
+      <dt>Email</dt>
+      <dd id="profileEmail"></dd>
+      <dt>Home city</dt>
+      <dd id="profileCity"></dd>
+    </dl>
+
+    <button type="button" id="logoutBtn" class="save">Log out</button>
   </section>
 
   <!-- Version number: bump this when you release changes -->
