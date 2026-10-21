@@ -217,3 +217,29 @@ body {
 
 .details dt { font-weight: 600; }
 .details dd { color: #444; overflow-wrap: anywhere; }
+
+/* "Add to my Airbnbs" under the search result */
+.add-airbnb { margin-top: 12px; }
+.add-airbnb .save:disabled { background: #717171; cursor: default; }
+.add-error { display: block; margin-top: 6px; color: #c13515; }
+
+/* "My Airbnbs" list in the profile */
+.section-title { font-size: 16px; margin-bottom: 12px; }
+
+.airbnb-list {
+  list-style: none;
+  margin-bottom: 24px;
+}
+
+.airbnb-list li {
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+}
+
+.airbnb-list li span {
+  display: block;
+  font-size: 14px;
+  color: #717171;
+}
+
+.airbnb-list .empty { color: #717171; font-size: 14px; }

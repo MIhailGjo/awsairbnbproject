@@ -55,6 +55,51 @@ function showProfile(user) {
     user.member_since ? "Member since " + user.member_since.slice(0, 4) : "";
   document.getElementById("profileEmail").textContent = user.email;
   document.getElementById("profileCity").textContent = user.home_city || "—";
+
+  // "My Airbnbs": one line per Airbnb the user added
+  const airbnbs = user.airbnbs || [];
+  document.getElementById("profileAirbnbs").innerHTML = airbnbs.length
+    ? airbnbs.map(a => `<li><strong>${esc(a.formatted_address)}</strong>
+        <span>$${esc(a.price_per_night)} / night · ${esc(a.beds)} beds · ${esc(a.baths)} baths</span></li>`).join("")
+    : "<li class=\"empty\">None yet. Search for one and click “Add to my Airbnbs”.</li>";
+}
+
+// --- "Add to my Airbnbs" button under the search result ---
+let shownAddress = null; // the address of the search result on screen
+
+// Show the right thing for this address: log in hint, button, or "added"
+function showAddButton(address) {
+  shownAddress = address;
+  const box = document.getElementById("addAirbnb");
+  if (!box) return; // no search result on screen
+
+  const user = loadUser();
+  if (!user) {
+    box.innerHTML = "<small>Log in to add this Airbnb to your account.</small>";
+    return;
+  }
+  const alreadyAdded = (user.airbnbs || []).some(a => a.address === address);
+  box.innerHTML = alreadyAdded
+    ? '<button type="button" class="save" disabled>✓ In my Airbnbs</button>'
+    : '<button type="button" class="save" id="addAirbnbBtn">Add to my Airbnbs</button>';
+  if (alreadyAdded) return;
+
+  // Click: save it to the user (Aurora) and mark it in DynamoDB, through the Lambda
+  document.getElementById("addAirbnbBtn").addEventListener("click", async e => {
+    e.target.disabled = true;
+    e.target.textContent = "Adding...";
+    try {
+      const data = await accountApi({ action: "add_airbnb", user_id: user.user_id, address });
+      user.airbnbs = data.airbnbs; // the updated list from the database
+      saveUser(user);
+      showProfile(user);
+      showAddButton(address);
+    } catch (err) {
+      e.target.disabled = false;
+      e.target.textContent = "Add to my Airbnbs";
+      box.insertAdjacentHTML("beforeend", `<small class="add-error">${esc(err.message)}</small>`);
+    }
+  });
 }
 
 // Switch the page between "logged in" and "logged out"
@@ -63,6 +108,7 @@ function render() {
   authCard.hidden = !!user;     // forms only when logged out
   profileCard.hidden = !user;   // profile only when logged in
   if (user) showProfile(user);
+  if (shownAddress) showAddButton(shownAddress); // update the button for the new state
 }
 
 // Show the Log in or Create account form
