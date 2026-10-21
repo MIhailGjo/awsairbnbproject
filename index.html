@@ -4,20 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stay Search</title>
+  <!-- Page styles (colors, layout) -->
   <link rel="stylesheet" href="styles.css">
+  <!-- Search logic; "defer" runs it after the page has loaded -->
   <script src="script.js" defer></script>
 </head>
 <body>
 
-  <div class="search" role="search">
-    <input id="searchInput" placeholder="Enter an address" aria-label="Address">
-    <button id="searchBtn">Search</button>
+  <!-- Search bar: type an address and click Search -->
+  <div class="search-wrap">
+    <div class="search" role="search">
+      <input id="searchInput" placeholder="Enter an address" aria-label="Address" autocomplete="off">
+      <button id="searchBtn">Search</button>
+    </div>
+    <!-- Dropdown of saved addresses, filled in by script.js while typing -->
+    <ul id="suggestions"></ul>
   </div>
+  <!-- Search results get filled in here by script.js -->
   <div id="results"></div>
 
+  <!-- Profile card (static for now, Save does nothing yet) -->
   <section class="profile">
     <h2>Profile</h2>
 
+    <!-- Avatar circle, name and member date -->
     <div class="profile-header">
       <div class="avatar">M</div>
       <div>
@@ -26,6 +36,7 @@
       </div>
     </div>
 
+    <!-- Profile form; "return false" stops the page from reloading -->
     <form onsubmit="return false;">
       <div class="field">
         <label for="name">Full name</label>
@@ -47,7 +58,8 @@
     </form>
   </section>
 
-  <footer class="version">v1.0.0</footer>
+  <!-- Version number: bump this when you release changes -->
+  <footer class="version">v1.0.3</footer>
 
 </body>
 </html>
