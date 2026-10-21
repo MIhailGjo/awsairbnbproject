@@ -166,3 +166,49 @@ body {
 }
 
 #suggestions li:hover { background: #f7f7f7; }
+
+/* Sign up / log in card */
+.auth {
+  width: 100%;
+  max-width: 640px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  flex: 1;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #222;
+  border-color: #222;
+  color: #fff;
+}
+
+.auth p { margin-bottom: 16px; }
+
+.field small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #717171;
+}
+
+.auth .auth-msg { margin: 12px 0 0; font-size: 14px; color: #c13515; }
+.auth .auth-msg:empty { display: none; }

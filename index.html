@@ -6,8 +6,12 @@
   <title>Stay Search</title>
   <!-- Page styles (colors, layout) -->
   <link rel="stylesheet" href="styles.css">
-  <!-- Search logic; "defer" runs it after the page has loaded -->
-  <script src="script.js" defer></script>
+  <!-- Search bar logic; "defer" runs it after the page has loaded -->
+  <script src="searchbar.js" defer></script>
+  <!-- Profile card logic -->
+  <script src="account.js" defer></script>
+  <!-- Sign up / log in (Amazon Cognito) -->
+  <script src="auth.js" defer></script>
 </head>
 <body>
 
@@ -17,14 +21,71 @@
       <input id="searchInput" placeholder="Enter an address" aria-label="Address" autocomplete="off">
       <button id="searchBtn">Search</button>
     </div>
-    <!-- Dropdown of saved addresses, filled in by script.js while typing -->
+    <!-- Dropdown of saved addresses, filled in by searchbar.js while typing -->
     <ul id="suggestions"></ul>
   </div>
-  <!-- Search results get filled in here by script.js -->
+  <!-- Search results get filled in here by searchbar.js -->
   <div id="results"></div>
 
-  <!-- Profile card (static for now, Save does nothing yet) -->
-  <section class="profile">
+  <!-- Sign up / log in card, made to work by auth.js -->
+  <section class="auth">
+    <!-- Shown when logged out: tabs to switch between log in and sign up -->
+    <div id="authForms">
+      <div class="tabs">
+        <button type="button" class="tab active" data-tab="login">Log in</button>
+        <button type="button" class="tab" data-tab="signup">Sign up</button>
+      </div>
+
+      <!-- Log in form -->
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="save">Log in</button>
+      </form>
+
+      <!-- Sign up form -->
+      <form id="signupForm" hidden>
+        <div class="field">
+          <label for="signupEmail">Email</label>
+          <input id="signupEmail" type="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="signupPassword">Password</label>
+          <input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required>
+          <small>At least 8 characters, with a number and an uppercase letter</small>
+        </div>
+        <button type="submit" class="save">Sign up</button>
+      </form>
+
+      <!-- After sign up: enter the code Cognito emailed you -->
+      <form id="confirmForm" hidden>
+        <p>We emailed you a code. Enter it to finish signing up.</p>
+        <div class="field">
+          <label for="confirmCode">Code</label>
+          <input id="confirmCode" inputmode="numeric" autocomplete="one-time-code" required>
+        </div>
+        <button type="submit" class="save">Confirm</button>
+      </form>
+    </div>
+
+    <!-- Shown when logged in -->
+    <div id="loggedIn" hidden>
+      <p>Logged in as <strong id="userEmail"></strong></p>
+      <button type="button" id="logoutBtn" class="save">Log out</button>
+    </div>
+
+    <!-- Errors and status messages -->
+    <p id="authMsg" class="auth-msg"></p>
+  </section>
+
+  <!-- Profile card, made to work by account.js (only shown when logged in) -->
+  <section class="profile" hidden>
     <h2>Profile</h2>
 
     <!-- Avatar circle, name and member date -->
@@ -36,8 +97,8 @@
       </div>
     </div>
 
-    <!-- Profile form; "return false" stops the page from reloading -->
-    <form onsubmit="return false;">
+    <!-- Profile form; account.js saves it when Save is clicked -->
+    <form>
       <div class="field">
         <label for="name">Full name</label>
         <input id="name" type="text" placeholder="Jane Doe">
@@ -59,7 +120,7 @@
   </section>
 
   <!-- Version number: bump this when you release changes -->
-  <footer class="version">v1.0.3</footer>
+  <footer class="version">v1.0.4</footer>
 
 </body>
 </html>
