@@ -112,7 +112,8 @@ body {
   border-color: #222;
 }
 
-.profile .save {
+/* Main dark button, used everywhere (Log in, Reserve, Log out...) */
+.save {
   border: none;
   background: #222;
   color: #fff;
@@ -122,6 +123,31 @@ body {
   border-radius: 8px;
   cursor: pointer;
 }
+
+.save:hover { background: #000; }
+
+/* Greyed out: "Reserving...", "✓ Reserved by you", "Already reserved" */
+.save:disabled {
+  background: #ebebeb;
+  color: #717171;
+  cursor: not-allowed;
+}
+
+/* Light outlined button (Unreserve) */
+.btn-outline {
+  border: 1px solid #222;
+  background: #fff;
+  color: #222;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.btn-outline:hover { background: #f7f7f7; }
+.btn-outline:disabled { color: #717171; border-color: #ddd; cursor: not-allowed; }
 
 /* Results */
 #results {
@@ -218,12 +244,11 @@ body {
 .details dt { font-weight: 600; }
 .details dd { color: #444; overflow-wrap: anywhere; }
 
-/* "Add to my Airbnbs" under the search result */
+/* Reserve button under the search result */
 .add-airbnb { margin-top: 12px; }
-.add-airbnb .save:disabled { background: #717171; cursor: default; }
 .add-error { display: block; margin-top: 6px; color: #c13515; }
 
-/* "My Airbnbs" list in the profile */
+/* "My reservations" list in the profile */
 .section-title { font-size: 16px; margin-bottom: 12px; }
 
 .airbnb-list {
@@ -231,7 +256,12 @@ body {
   margin-bottom: 24px;
 }
 
+/* each reservation: details on the left, Unreserve on the right */
 .airbnb-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding: 10px 0;
   border-top: 1px solid #eee;
 }

@@ -78,8 +78,8 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
       <p>$${esc(data.pricePerNight)} / night · ${esc(data.beds)} beds · ${esc(data.baths)} baths</p>
       <small>${data.cached ? "from database" : "new — just added"}</small>
       <div id="addAirbnb" class="add-airbnb"></div>`;
-    // "Add to my Airbnbs" button (account.js decides what to show)
-    showAddButton(data.address);
+    // "Reserve" button (account.js decides what to show)
+    showAddButton(data.address, data.reserved);
   } catch (err) {
     // 6. Network problem (offline, Lambda down, CORS blocked, ...)
     out.textContent = "Something went wrong";
