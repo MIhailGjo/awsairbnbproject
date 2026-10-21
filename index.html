@@ -6,12 +6,16 @@
   <title>Stay Search</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
+    <script>const SEARCH_URL = "https://bevdt4po5mvfmm7w4xmm3xwhtq0upqpu.lambda-url.us-east-1.on.aws/";</script>  
+    
 <body>
 
-  <form class="search" role="search" onsubmit="return false;">
-    <input type="search" name="q" placeholder="Search destinations, stays…" aria-label="Search">
-    <button type="submit">Search</button>
-  </form>
+  <div class="search" role="search">
+    <input id="searchInput" placeholder="Enter an address" aria-label="Address">
+    <button id="searchBtn">Search</button>
+  </div>
+  <div id="results"></div>
 
   <section class="profile">
     <h2>Profile</h2>

@@ -122,3 +122,11 @@ body {
   border-radius: 8px;
   cursor: pointer;
 }
+
+/* Results */
+#results {
+  width: 100%;
+  max-width: 640px;
+}
+
+#results:empty { display: none; }
