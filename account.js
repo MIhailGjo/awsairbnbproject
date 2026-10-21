@@ -1,53 +1,45 @@
 // account.js: makes the profile card work.
-// Clicking Save keeps your details in this browser (localStorage)
-// and updates the name and avatar at the top of the card.
+// Shows the logged-in user's details, and clicking Save updates
+// them in the database (through the Lambda) and in the card header.
 
-// Key the profile is saved under in the browser
-const PROFILE_KEY = "profile";
-
-// The form fields we save, by their id in index.html
+// The form fields, by their id in index.html
 const FIELDS = ["name", "email", "location", "bio"];
 
 const form = document.querySelector(".profile form");
 const nameText = document.querySelector(".profile-header .name");
 const avatar = document.querySelector(".profile-header .avatar");
+const memberSince = document.querySelector(".profile-header .meta");
+const profileMsg = document.getElementById("profileMsg");
 
-// Read the saved profile (or an empty one if nothing is saved / storage is blocked)
-function loadProfile() {
-  try {
-    return JSON.parse(localStorage.getItem(PROFILE_KEY)) || {};
-  } catch {
-    return {};
-  }
-}
-
-// Show the name and its first letter in the avatar circle
-function showHeader(profile) {
-  const name = (profile.name || "").trim();
+// Fill the card with a user's details (called by auth.js after logging in)
+function showProfile(user) {
+  FIELDS.forEach(id => {
+    document.getElementById(id).value = user[id] || "";
+  });
+  const name = (user.name || "").trim();
   nameText.textContent = name || "Your Name";
   avatar.textContent = name ? name[0].toUpperCase() : "?";
+  // "2026-10-21T..." -> "Member since 2026"
+  memberSince.textContent = user.createdAt ? "Member since " + user.createdAt.slice(0, 4) : "";
+  profileMsg.textContent = "";
 }
 
-// 1. When the page opens: fill the form with what was saved before
-const saved = loadProfile();
-FIELDS.forEach(id => {
-  document.getElementById(id).value = saved[id] || "";
-});
-showHeader(saved);
-
-// 2. When Save is clicked: collect the fields, store them, update the header
-form.addEventListener("submit", e => {
+// When Save is clicked: send the changes to the database
+form.addEventListener("submit", async e => {
   e.preventDefault(); // stop the page from reloading
 
-  const profile = {};
+  const changes = { action: "update" };
   FIELDS.forEach(id => {
-    profile[id] = document.getElementById(id).value.trim();
+    changes[id] = document.getElementById(id).value;
   });
 
+  profileMsg.textContent = "Saving...";
   try {
-    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    const user = await accountApi(changes); // from auth.js
+    saveUser(user);                          // remember the new details
+    showProfile(user);
+    profileMsg.textContent = "Saved";
   } catch (err) {
-    console.log("couldn't save profile", err); // e.g. private browsing
+    profileMsg.textContent = err.message;
   }
-  showHeader(profile);
 });

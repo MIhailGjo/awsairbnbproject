@@ -29,48 +29,41 @@
 
   <!-- Sign up / log in card, made to work by auth.js -->
   <section class="auth">
-    <!-- Shown when logged out: tabs to switch between log in and sign up -->
+    <!-- Shown when logged out: tabs to switch between log in and create account -->
     <div id="authForms">
       <div class="tabs">
         <button type="button" class="tab active" data-tab="login">Log in</button>
-        <button type="button" class="tab" data-tab="signup">Sign up</button>
+        <button type="button" class="tab" data-tab="signup">Create account</button>
       </div>
 
-      <!-- Log in form -->
+      <!-- Log in: just the email -->
       <form id="loginForm">
         <div class="field">
           <label for="loginEmail">Email</label>
-          <input id="loginEmail" type="email" autocomplete="username" required>
-        </div>
-        <div class="field">
-          <label for="loginPassword">Password</label>
-          <input id="loginPassword" type="password" autocomplete="current-password" required>
+          <input id="loginEmail" type="email" autocomplete="email" required>
         </div>
         <button type="submit" class="save">Log in</button>
       </form>
 
-      <!-- Sign up form -->
+      <!-- Create account: the original profile fields -->
       <form id="signupForm" hidden>
         <div class="field">
+          <label for="signupName">Full name</label>
+          <input id="signupName" type="text" placeholder="Jane Doe" autocomplete="name" required>
+        </div>
+        <div class="field">
           <label for="signupEmail">Email</label>
-          <input id="signupEmail" type="email" autocomplete="username" required>
+          <input id="signupEmail" type="email" placeholder="jane@example.com" autocomplete="email" required>
         </div>
         <div class="field">
-          <label for="signupPassword">Password</label>
-          <input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required>
-          <small>At least 8 characters, with a number and an uppercase letter</small>
+          <label for="signupLocation">Location</label>
+          <input id="signupLocation" type="text" placeholder="City, Country">
         </div>
-        <button type="submit" class="save">Sign up</button>
-      </form>
-
-      <!-- After sign up: enter the code Cognito emailed you -->
-      <form id="confirmForm" hidden>
-        <p>We emailed you a code. Enter it to finish signing up.</p>
         <div class="field">
-          <label for="confirmCode">Code</label>
-          <input id="confirmCode" inputmode="numeric" autocomplete="one-time-code" required>
+          <label for="signupBio">About</label>
+          <textarea id="signupBio" rows="3" placeholder="Tell hosts a bit about yourself"></textarea>
         </div>
-        <button type="submit" class="save">Confirm</button>
+        <button type="submit" class="save">Create account</button>
       </form>
     </div>
 
@@ -93,19 +86,20 @@
       <div class="avatar">M</div>
       <div>
         <div class="name">Your Name</div>
-        <div class="meta">Member since 2026</div>
+        <div class="meta"></div>
       </div>
     </div>
 
-    <!-- Profile form; account.js saves it when Save is clicked -->
+    <!-- Profile form; account.js saves it to the database when Save is clicked -->
     <form>
       <div class="field">
         <label for="name">Full name</label>
-        <input id="name" type="text" placeholder="Jane Doe">
+        <input id="name" type="text" placeholder="Jane Doe" required>
       </div>
       <div class="field">
+        <!-- email is the account's login, so it can't be changed here -->
         <label for="email">Email</label>
-        <input id="email" type="email" placeholder="jane@example.com">
+        <input id="email" type="email" readonly>
       </div>
       <div class="field">
         <label for="location">Location</label>
@@ -116,11 +110,12 @@
         <textarea id="bio" rows="3" placeholder="Tell hosts a bit about yourself"></textarea>
       </div>
       <button type="submit" class="save">Save</button>
+      <span id="profileMsg" class="profile-msg"></span>
     </form>
   </section>
 
   <!-- Version number: bump this when you release changes -->
-  <footer class="version">v1.0.4</footer>
+  <footer class="version">v1.0.5</footer>
 
 </body>
 </html>
