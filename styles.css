@@ -130,3 +130,9 @@ body {
 }
 
 #results:empty { display: none; }
+
+/* Version */
+.version {
+  font-size: 12px;
+  color: #717171;
+}
