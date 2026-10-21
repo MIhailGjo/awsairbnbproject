@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stay Search</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <form class="search" role="search" onsubmit="return false;">
+    <input type="search" name="q" placeholder="Search destinations, stays…" aria-label="Search">
+    <button type="submit">Search</button>
+  </form>
+
+  <section class="profile">
+    <h2>Profile</h2>
+
+    <div class="profile-header">
+      <div class="avatar">M</div>
+      <div>
+        <div class="name">Your Name</div>
+        <div class="meta">Member since 2026</div>
+      </div>
+    </div>
+
+    <form onsubmit="return false;">
+      <div class="field">
+        <label for="name">Full name</label>
+        <input id="name" type="text" placeholder="Jane Doe">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="jane@example.com">
+      </div>
+      <div class="field">
+        <label for="location">Location</label>
+        <input id="location" type="text" placeholder="City, Country">
+      </div>
+      <div class="field">
+        <label for="bio">About</label>
+        <textarea id="bio" rows="3" placeholder="Tell hosts a bit about yourself"></textarea>
+      </div>
+      <button type="submit" class="save">Save</button>
+    </form>
+  </section>
+
+</body>
+</html>
