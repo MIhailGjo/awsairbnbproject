@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Lambda build output
+*.zip
+build/
+package/
+
+# Secrets / local settings (never commit these)
+.env
+.env.*
+*.pem
+credentials
+.aws/
