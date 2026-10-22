@@ -1,5 +1,9 @@
 # awsairbnbproject
 
+
+https://github.com/user-attachments/assets/339b3b0a-4951-4d0e-b65f-bc72d6aeb556
+
+
 A small Airbnb-style site built on AWS. You can search an address to see rental info for it, create an account or log in, and reserve properties.
 
 > **Class project / demo only.** Login uses just an email address, with no password, so anyone who knows an email can log in as that user. Don't store real personal data in it.
@@ -12,8 +16,8 @@ A small Airbnb-style site built on AWS. You can search an address to see rental 
 - **Reservations:** reserve a property from the search results. A property can be reserved by only one user at a time, and you can unreserve it from your profile.
 
 ## How it's built
+<img width="1568" height="767" alt="image" src="https://github.com/user-attachments/assets/71fb041a-9651-45c2-ac7e-4c817ff9b688" />
 
-![Architecture: the browser loads the site from S3, calls the Search Lambda (DynamoDB, Maps API) and the Profile Lambda (Aurora PostgreSQL)](docs/architecture.png)
 
 - **Frontend:** plain HTML, CSS and JavaScript, with no build step.
 - **Backend:** two Python Lambda functions, each called through its own function URL.
