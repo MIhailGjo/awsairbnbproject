@@ -13,7 +13,9 @@ function esc(value) {
   return div.innerHTML;
 }
 
-// --- Suggestions dropdown: show up to 5 saved addresses while typing ---
+// --- Suggestions dropdown while typing ---
+// cyan  = addresses already saved in our database
+// green = real addresses from the map API (saved the first time you search one)
 const input = document.getElementById("searchInput");
 const list = document.getElementById("suggestions");
 let typingTimer; // used to wait until the user pauses typing
@@ -30,10 +32,10 @@ input.addEventListener("input", () => {
       const data = await res.json();
       if (input.value.trim() !== text) return; // user kept typing, ignore old answer
 
-      // one <li> per saved address
-      list.innerHTML = (data.suggestions || [])
-        .map(s => `<li>${esc(s)}</li>`)
-        .join("");
+      // one <li> per address: saved ones first, then real ones from the map
+      list.innerHTML =
+        (data.saved || []).map(s => `<li class="saved" title="Saved in our database">${esc(s)}</li>`).join("") +
+        (data.places || []).map(s => `<li class="place" title="Real address from the map">${esc(s)}</li>`).join("");
     } catch (err) {
       list.innerHTML = ""; // on error just hide the dropdown
       console.log(err);

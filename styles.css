@@ -193,6 +193,10 @@ body {
 
 #suggestions li:hover { background: #f7f7f7; }
 
+/* cyan = already saved in the database, green = real address from the map API */
+#suggestions li.saved { color: #0e7490; }
+#suggestions li.place { color: #15803d; }
+
 /* Sign up / log in card */
 .auth {
   width: 100%;

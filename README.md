@@ -10,8 +10,8 @@ A small Airbnb-style site built on AWS. You can search an address to see rental 
 
 ## Features
 
-- **Address search:** returns price per night, beds and baths for an address. New addresses are looked up and saved, and repeat searches come from the database.
-- **Suggestions while typing:** shows up to 5 saved addresses that match what you've typed.
+- **Address search:** returns price per night, beds and baths for an address. New addresses are looked up with a real map API ([Photon](https://photon.komoot.io), built on OpenStreetMap). The address details (street, city, state, zip, country, coordinates) are saved, and repeat searches come from the database.
+- **Suggestions while typing:** shows up to 5 saved addresses that match what you've typed (in cyan), plus up to 5 real addresses from the map API (in green), with places near Washington, DC listed first.
 - **Accounts:** create an account (name, email, home city) or log in with your email. Your profile is loaded from the database.
 - **Reservations:** reserve a property from the search results. A property can be reserved by only one user at a time, and you can unreserve it from your profile.
 
@@ -45,7 +45,7 @@ A small Airbnb-style site built on AWS. You can search an address to see rental 
 | Request | Response |
 |---|---|
 | `?address=123 Main St` | `{ formattedAddress, pricePerNight, beds, baths, cached, reserved, ... }` |
-| `?suggest=main` | `{ suggestions: [ "123 Main St", ... ] }` (at most 5) |
+| `?suggest=main` | `{ saved: [...], places: [...] }` (at most 5 of each; `saved` = in the database, `places` = from the map API) |
 
 **`customerdata`** (POST, JSON body)
 
@@ -66,7 +66,7 @@ A small Airbnb-style site built on AWS. You can search an address to see rental 
 | Permissions on `airbnb-properties` | `GetItem`, `PutItem`, `UpdateItem`, `Scan` |
 | Permissions on `airbnb-search-log` | `PutItem` |
 
-Without a `GOOGLE_API_KEY`, it makes up coordinates instead of calling Google Maps.
+Addresses are looked up with Photon, which is free and needs no key. If `GOOGLE_API_KEY` is set, it uses Google Maps instead. The Lambda needs a 10s timeout to leave time for the map API.
 
 **`customerdata` Lambda**
 
